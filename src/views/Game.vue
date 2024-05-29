@@ -1,8 +1,12 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import type { Ref } from 'vue'
 import type { IFishObject } from '@/interfaces/IFishObject'
+import type { IPlayer } from '@/interfaces/IPlayer'
+import type { IKeys } from '@/interfaces/IKeys'
 import { fishDictionary } from '@/components/FishObjects'
+import { basicPlayerFish } from '@/components/Player'
+import { Controls } from '@/enum/Controls'
 
 //#region Данные
 
@@ -30,6 +34,46 @@ const fishInGameHtml: Ref<string> = ref<string>('')
  * Флаг разрешения добавить новую рыбу.
  */
 let isNewFishAllowed = true
+
+/**
+ * Рыба игрока.
+ */
+const player: Ref<IPlayer> = ref<IPlayer>({} as IPlayer)
+
+/**
+ * Зажатый контрол.
+ */
+let control: Controls = 9
+
+/**
+ * Мощь Игрока.
+ */
+const playerPower: Ref<number> = ref<number>(0)
+
+/**
+ * Время партии.
+ */
+let gameTime = 0
+
+/**
+ * Время начала партии.
+ */
+const gameStartTime: number = Date.now()
+
+/**
+ * Время конца партии.
+ */
+let gameEndTime: Date | null = null
+
+/**
+ * Накапливаемые очки, чтобы увеличить размер Игрока.
+ */
+let growthPoints: number = 0
+
+/**
+ * Значение ширина / высота Игрока.
+ */
+let playerWidthToHeightRatio = 0
 //#endregion Данные
 
 //#region Методы
@@ -37,11 +81,17 @@ let isNewFishAllowed = true
  * Сформировать html игрового окна (кадр).
  */
 const formfishInGameHtml = () => {
+  changePlayerPosition(getPlayerControl())
+
+  let txt = ''
+
+  //добавить рыбу игрока
+  txt += formPlayerHtml(player.value)
+
+  //управлять появлением и движением рыб
   deleteOldFish()
 
   if (isNewFishAllowed) addNewFish()
-
-  let txt = ''
 
   if (fishInGame.value.length > 0) {
     for (const item of fishInGame.value) {
@@ -53,6 +103,8 @@ const formfishInGameHtml = () => {
   }
 
   fishInGameHtml.value = txt
+
+  processAllOverlaps()
 }
 
 /**
@@ -70,12 +122,26 @@ const formFishHtml = (fish: IFishObject): string => {
 }
 
 /**
- * Разрешить появление новой рыбы через N секунд. Сейчас N между 0 и 3 сек.
+ * Сформировать html рыбы игрока.
+ */
+const formPlayerHtml = (fish: IPlayer): string => {
+  let txt = `
+  <img src='${fish.imagePath}'
+    alt='игрок'
+    width='${fish.width}'
+    height='${fish.height}'
+    style="position:absolute;top:${fish.top}px;left:${fish.left}px;z-index:10" />`
+
+  return txt
+}
+
+/**
+ * Разрешить появление новой рыбы через N секунд. Сейчас N между 2 и 9 сек.
  */
 const setTimerForAddNewFish = () => {
   isNewFishAllowed = false
 
-  const timerForAddNewFish = generateRandomNumber(0, 3000)
+  const timerForAddNewFish = generateRandomNumber(500, 3000)
 
   setTimeout(function () {
     isNewFishAllowed = true
@@ -98,6 +164,17 @@ const addNewFish = () => {
 }
 
 /**
+ * Создать впервые рыбу Игрока.
+ */
+const initPlayer = (playerFish: IPlayer) => {
+  player.value = playerFish
+  player.value.top = gameWindowHeight / 2 - player.value.height / 2
+  player.value.left = gameWindowWidth / 2 - player.value.width / 2
+  playerPower.value = player.value.width * player.value.height
+  playerWidthToHeightRatio = player.value.width / player.value.height
+}
+
+/**
  * Удалить старую рыбу.
  */
 const deleteOldFish = () => {
@@ -113,7 +190,6 @@ const deleteOldFish = () => {
 
   for (const index of fishToRemove.reverse()) {
     fishInGame.value.splice(index, 1)
-    console.log('удалил')
   }
 }
 
@@ -126,21 +202,221 @@ const generateRandomNumber = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min)) + min
 }
 
-//#endregion Методы
+/**
+ * Получить информацию о столкновении рыб.
+ */
+const trackOverlap = () => {
+  for (const item of fishInGame.value) {
+    getIsOverlap(item)
+  }
+}
 
-//#region Инициализация
+/**
+ * Возвращает флаг, столкнулась ли рыба с рыбой игрока.
+ */
+const getIsOverlap = (fish: IFishObject) => {
+  if (
+    fish.left + fish.width > player.value.left &&
+    fish.left < player.value.left + player.value.width &&
+    fish.top < player.value.top + player.value.height &&
+    fish.top + fish.height > player.value.top
+  ) {
+    console.log('overlap!')
+    return true
+  } else return false
+}
+
+/**
+ * Обрабатывает события столкновения Игрока с другими рыбами.
+ */
+const processAllOverlaps = () => {
+  for (const item of fishInGame.value) {
+    if (getIsOverlap(item)) {
+      getWhoWins(item)
+      fishInGame.value.splice(fishInGame.value.indexOf(item), 1)
+    }
+  }
+}
+
+/**
+ * Обрабатывает исход столкновения Игрока с рыбой.
+ * @param {IFishObject} fish - рыба.
+ */
+const getWhoWins = (fish: IFishObject) => {
+  console.log('getWhoWins')
+  const fishPower: number = fish.width * fish.height
+  if (playerPower.value < fishPower) {
+    showGameOver()
+  } else {
+    growPlayer()
+  }
+}
+
+/**
+ * Прибавляет размер Игроку за съеденную рыбу.
+ */
+const growPlayer = () => {
+  growthPoints++
+  /*   if (growthPoints < 3) return */
+
+  player.value.height = player.value.height + 5
+  player.value.width = Math.round(player.value.height * playerWidthToHeightRatio)
+  playerPower.value = player.value.height * player.value.width
+  console.log(playerPower.value)
+}
+
+/**
+ * Обрабатывает событие окончание игры.
+ */
+const showGameOver = () => {
+  /*   clearInterval(interval)
+  gameEndTime = Date.now()
+  gameTime = (gameEndTime - gameStartTime) / 360 */
+
+  alert(`Game over!
+    Power achieved: ${playerPower.value}
+    To play again refresh the window!`)
+}
+
+//#region Управление
+const keys = {
+  arrowUpEnabled: false,
+  arrowRightEnabled: false,
+  arrowDownEnabled: false,
+  arrowLeftEnabled: false
+}
+
+/**
+ * Событие нажатия клавиши управления.
+ */
+const onKeyDown = (e: KeyboardEvent) => {
+  if (!e.repeat) {
+    e.stopPropagation()
+
+    switch (e.key) {
+      case 'ArrowUp':
+        keys.arrowUpEnabled = true
+        break
+      case 'ArrowRight':
+        keys.arrowRightEnabled = true
+        break
+      case 'ArrowDown':
+        keys.arrowDownEnabled = true
+        break
+      case 'ArrowLeft':
+        keys.arrowLeftEnabled = true
+        break
+    }
+  }
+}
+
+/**
+ * Событие снятия нажатия с клавиши управления.
+ */
+const onKeyUp = (e: KeyboardEvent) => {
+  switch (e.key) {
+    case 'ArrowUp':
+      keys.arrowUpEnabled = false
+      break
+    case 'ArrowRight':
+      keys.arrowRightEnabled = false
+      break
+    case 'ArrowDown':
+      keys.arrowDownEnabled = false
+      break
+    case 'ArrowLeft':
+      keys.arrowLeftEnabled = false
+      break
+  }
+}
+
+/**
+ * Получает выбранное игроком направление движения рыбы.
+ */
+const getPlayerControl = () => {
+  if (keys.arrowUpEnabled && !keys.arrowDownEnabled) {
+    if (!keys.arrowLeftEnabled && !keys.arrowRightEnabled) control = Controls.up
+    else if (!keys.arrowLeftEnabled && keys.arrowRightEnabled) control = Controls.upRight
+    else if (keys.arrowUpEnabled && !keys.arrowDownEnabled) control = Controls.upLeft
+  } else if (keys.arrowRightEnabled && !keys.arrowLeftEnabled) {
+    if (!keys.arrowUpEnabled && !keys.arrowDownEnabled) control = Controls.right
+    else if (!keys.arrowUpEnabled && keys.arrowDownEnabled) control = Controls.downRight
+  } else if (keys.arrowDownEnabled && !keys.arrowUpEnabled) {
+    if (!keys.arrowLeftEnabled && !keys.arrowRightEnabled) control = Controls.down
+    else if (keys.arrowLeftEnabled && !keys.arrowRightEnabled) control = Controls.downLeft
+  } else if (keys.arrowLeftEnabled && !keys.arrowRightEnabled) {
+    if (!keys.arrowUpEnabled && !keys.arrowDownEnabled) control = Controls.left
+  } else control = Controls.still
+  return control
+}
+
+/**
+ * Расчитывает координаты Игрока в данный момент.
+ */
+const changePlayerPosition = (control: Controls) => {
+  switch (control) {
+    case Controls.up:
+      player.value.top = player.value.top - player.value.speed
+      break
+    case Controls.right:
+      player.value.left = player.value.left + player.value.speed
+      player.value.imagePath = player.value.imageRightPath
+      break
+    case Controls.down:
+      player.value.top = player.value.top + player.value.speed
+      break
+    case Controls.left:
+      player.value.left = player.value.left - player.value.speed
+      player.value.imagePath = player.value.imageLeftPath
+      break
+    case Controls.upLeft:
+      player.value.top = player.value.top - player.value.speed
+      player.value.left = player.value.left - player.value.speed
+      player.value.imagePath = player.value.imageLeftPath
+      break
+    case Controls.upRight:
+      player.value.top = player.value.top - player.value.speed
+      player.value.left = player.value.left + player.value.speed
+      player.value.imagePath = player.value.imageRightPath
+      break
+    case Controls.downLeft:
+      player.value.top = player.value.top + player.value.speed
+      player.value.left = player.value.left - player.value.speed
+      player.value.imagePath = player.value.imageLeftPath
+      break
+    case Controls.downRight:
+      player.value.top = player.value.top + player.value.speed
+      player.value.left = player.value.left + player.value.speed
+      player.value.imagePath = player.value.imageRightPath
+      break
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('keydown', onKeyDown)
+  window.addEventListener('keyup', onKeyUp)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', onKeyDown)
+  window.removeEventListener('keyup', onKeyUp)
+})
+
+//#endregion Управление
+
+//#region Инициализация (порядок вызова функций важен)
+initPlayer(basicPlayerFish)
+
 setInterval(() => {
   formfishInGameHtml()
-}, 40)
+}, 40) //40 - 25 кадров в сек
 
 addNewFish()
 //#endregion Инициализация
-
-/* background: linear-gradient(rgb(77, 77, 255), blue); */
 </script>
 
 <template>
-  <main v-html="fishInGameHtml" class="game-window"></main>
+  <main v-html="fishInGameHtml" class="game-window" @keydown="onKeyDown" @keyUp="onKeyUp"></main>
 </template>
 
 <style scoped>
