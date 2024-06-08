@@ -21,7 +21,6 @@ import Game from '@/views/Game.vue'
 }
 
 .game-window {
-  position: relative;
   height: 603px;
   width: 1072px;
   margin: auto;

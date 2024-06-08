@@ -1,15 +1,19 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 import type { Ref } from 'vue'
-import type { IFishObject } from '@/interfaces/IFishObject'
-import type { IPlayer } from '@/interfaces/IPlayer'
-import type { IKeys } from '@/interfaces/IKeys'
+
+import Toolbar from '@/views/Toolbar.vue'
+import ActionsPopup from '@/views/ActionsPopup.vue'
+
 import { fishDictionary } from '@/components/FishObjects'
 import { basicPlayerFish } from '@/components/Player'
 import { Controls } from '@/enum/Controls'
 
-//#region Данные
+import type { IFishObject } from '@/interfaces/IFishObject'
+import type { IPlayer } from '@/interfaces/IPlayer'
+import type { IKeys } from '@/interfaces/IKeys'
 
+//#region Данные
 /**
  * Высота игрового окна.
  */
@@ -71,12 +75,41 @@ let gameEndTime: Date | null = null
 let growthPoints: number = 0
 
 /**
+ * Очки, которые надо накопить, чтобы увеличить размер Игрока.
+ */
+const maxGrowthPoints: number = 3
+
+/**
  * Значение ширина / высота Игрока.
  */
 let playerWidthToHeightRatio = 0
+
+/**
+ * Таймер генерации кадров.
+ */
+let animationLauncher: number = 0
+
+/**
+ * Флаг видимости всплывающего окна действий.
+ */
+const isActionsPopupVisible: Ref<boolean> = ref<boolean>(false)
+
+/**
+ * Флаг видимости всплывающего окна конца игры.
+ */
+const isGameOverPopupVisible: Ref<boolean> = ref<boolean>(false)
 //#endregion Данные
 
 //#region Методы
+/**
+ * Запустить игру.
+ */
+const launchGame = () => {
+  animationLauncher = setInterval(() => {
+    formfishInGameHtml()
+  }, 40) //40 - 25 кадров в сек
+}
+
 /**
  * Сформировать html игрового окна (кадр).
  */
@@ -136,7 +169,7 @@ const formPlayerHtml = (fish: IPlayer): string => {
 }
 
 /**
- * Разрешить появление новой рыбы через N секунд. Сейчас N между 2 и 9 сек.
+ * Разрешить появление новой рыбы через N секунд.
  */
 const setTimerForAddNewFish = () => {
   isNewFishAllowed = false
@@ -257,29 +290,64 @@ const getWhoWins = (fish: IFishObject) => {
  */
 const growPlayer = () => {
   growthPoints++
-  /*   if (growthPoints < 3) return */
+  if (growthPoints <= maxGrowthPoints) return
 
   player.value.height = player.value.height + 5
   player.value.width = Math.round(player.value.height * playerWidthToHeightRatio)
   playerPower.value = player.value.height * player.value.width
-  console.log(playerPower.value)
+  growthPoints = 0
 }
 
 /**
  * Обрабатывает событие окончание игры.
  */
 const showGameOver = () => {
-  /*   clearInterval(interval)
-  gameEndTime = Date.now()
-  gameTime = (gameEndTime - gameStartTime) / 360 */
-
   alert(`Game over!
     Power achieved: ${playerPower.value}
     To play again refresh the window!`)
 }
+//#endregion Методы
+
+//#region События
+const onButton = (isPause: boolean) => {
+  console.log('onButton')
+  if (isPause) {
+    onPause()
+  } else {
+    onResume()
+  }
+}
+
+/**
+ * Событие нажатия кнопки "Pause".
+ */
+const onPause = () => {
+  clearInterval(animationLauncher)
+  isActionsPopupVisible.value = true
+}
+
+/**
+ * Событие нажатия кнопки "Resume".
+ */
+const onResume = () => {
+  launchGame()
+  isActionsPopupVisible.value = false
+}
+
+/**
+ * Событие закрытия всплывающего окна действий.
+ */
+const onCloseActionsPopup = () => (isActionsPopupVisible.value = false)
+
+/**
+ * Событие закрытия всплывающего окна конца игры.
+ */
+const onCloseGameOverPopup = () => (isActionsPopupVisible.value = false)
+
+//#endregion События
 
 //#region Управление
-const keys = {
+const keys: IKeys = {
   arrowUpEnabled: false,
   arrowRightEnabled: false,
   arrowDownEnabled: false,
@@ -290,6 +358,7 @@ const keys = {
  * Событие нажатия клавиши управления.
  */
 const onKeyDown = (e: KeyboardEvent) => {
+  console.log(e)
   if (!e.repeat) {
     e.stopPropagation()
 
@@ -305,6 +374,10 @@ const onKeyDown = (e: KeyboardEvent) => {
         break
       case 'ArrowLeft':
         keys.arrowLeftEnabled = true
+        break
+      case ' ':
+        if (isActionsPopupVisible.value) onResume()
+        else onPause()
         break
     }
   }
@@ -407,19 +480,44 @@ onUnmounted(() => {
 //#region Инициализация (порядок вызова функций важен)
 initPlayer(basicPlayerFish)
 
-setInterval(() => {
-  formfishInGameHtml()
-}, 40) //40 - 25 кадров в сек
+launchGame()
 
 addNewFish()
 //#endregion Инициализация
 </script>
 
 <template>
-  <main v-html="fishInGameHtml" class="game-window" @keydown="onKeyDown" @keyUp="onKeyUp"></main>
+  <main>
+    <div v-html="fishInGameHtml" class="game-window" @keydown="onKeyDown" @keyUp="onKeyUp"></div>
+    <Toolbar
+      :player-power="playerPower"
+      :growth-points="growthPoints"
+      :max-growth-points="maxGrowthPoints"
+      :is-actions-popup-visible="isActionsPopupVisible"
+      @pause="onButton"
+    />
+    <ActionsPopup
+      v-if="isActionsPopupVisible"
+      @closePopup="onCloseActionsPopup"
+      @resume="onResume"
+      class="actionsPopup"
+    />
+    <GameOverPopup
+      v-if="isGameOverPopupVisible"
+      @closePopup="onCloseGameOverPopup"
+      @resume="onResume"
+      class="actionsPopup"
+    />
+  </main>
 </template>
 
 <style scoped>
+main {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
 .game-window {
   background-image: url('images/background.png');
   overflow: hidden;
@@ -427,5 +525,17 @@ addNewFish()
 
 .game-object {
   position: absolute;
+}
+
+.toolbar {
+  position: absolute;
+  top: 5px;
+  padding: 0px 10px;
+}
+
+.actionsPopup {
+  margin: auto;
+  height: 400px;
+  width: 400px;
 }
 </style>

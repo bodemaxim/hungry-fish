@@ -5,7 +5,7 @@ export const fishDictionary: IFishObject[] = [
   {
     height: 20,
     width: 40,
-    imagePath: 'images/xs-rainbow-right.png',
+    imagePath: 'images/xs-rainbow-right.svg',
     goesRight: true,
     speed: 5,
     top: 0,
@@ -14,7 +14,7 @@ export const fishDictionary: IFishObject[] = [
   {
     height: 20,
     width: 40,
-    imagePath: 'images/xs-rainbow-left.png',
+    imagePath: 'images/xs-rainbow-left.svg',
     goesRight: false,
     speed: 5,
     top: 0,
@@ -24,7 +24,7 @@ export const fishDictionary: IFishObject[] = [
   {
     height: 30,
     width: 59,
-    imagePath: 'images/xs-clown-right.png',
+    imagePath: 'images/xs-clown-right.svg',
     goesRight: true,
     speed: 3,
     top: 0,
@@ -33,7 +33,7 @@ export const fishDictionary: IFishObject[] = [
   {
     height: 30,
     width: 59,
-    imagePath: 'images/xs-clown-left.png',
+    imagePath: 'images/xs-clown-left.svg',
     goesRight: false,
     speed: 3,
     top: 0,
@@ -43,7 +43,7 @@ export const fishDictionary: IFishObject[] = [
   {
     height: 40,
     width: 71,
-    imagePath: 'images/xs-fire-right.png',
+    imagePath: 'images/xs-fire-right.svg',
     goesRight: true,
     speed: 4,
     top: 0,
@@ -52,7 +52,7 @@ export const fishDictionary: IFishObject[] = [
   {
     height: 40,
     width: 71,
-    imagePath: 'images/xs-fire-left.png',
+    imagePath: 'images/xs-fire-left.svg',
     goesRight: false,
     speed: 2,
     top: 0,
@@ -62,7 +62,7 @@ export const fishDictionary: IFishObject[] = [
   {
     height: 60,
     width: 129,
-    imagePath: 'images/xs-blue-right.png',
+    imagePath: 'images/xs-blue-right.svg',
     goesRight: true,
     speed: 2,
     top: 0,
@@ -71,7 +71,7 @@ export const fishDictionary: IFishObject[] = [
   {
     height: 60,
     width: 129,
-    imagePath: 'images/xs-blue-left.png',
+    imagePath: 'images/xs-blue-left.svg',
     goesRight: false,
     speed: 4,
     top: 0,
@@ -81,7 +81,7 @@ export const fishDictionary: IFishObject[] = [
   {
     height: 70,
     width: 111,
-    imagePath: 'images/xs-spinosaurus-right.png',
+    imagePath: 'images/xs-spinosaurus-right.svg',
     goesRight: true,
     speed: 3,
     top: 0,
@@ -90,7 +90,7 @@ export const fishDictionary: IFishObject[] = [
   {
     height: 70,
     width: 111,
-    imagePath: 'images/xs-spinosaurus-left.png',
+    imagePath: 'images/xs-spinosaurus-left.svg',
     goesRight: false,
     speed: 3,
     top: 0,
@@ -100,7 +100,7 @@ export const fishDictionary: IFishObject[] = [
   {
     height: 80,
     width: 156,
-    imagePath: 'images/xs-bossy-right.png',
+    imagePath: 'images/xs-bossy-right.svg',
     goesRight: true,
     speed: 4,
     top: 0,
@@ -109,7 +109,7 @@ export const fishDictionary: IFishObject[] = [
   {
     height: 80,
     width: 156,
-    imagePath: 'images/xs-bossy-left.png',
+    imagePath: 'images/xs-bossy-left.svg',
     goesRight: false,
     speed: 4,
     top: 0,
@@ -119,7 +119,7 @@ export const fishDictionary: IFishObject[] = [
   {
     height: 100,
     width: 126,
-    imagePath: 'images/s-nosy-right.png',
+    imagePath: 'images/s-nosy-right.svg',
     goesRight: true,
     speed: 5,
     top: 0,
@@ -128,7 +128,7 @@ export const fishDictionary: IFishObject[] = [
   {
     height: 100,
     width: 126,
-    imagePath: 'images/s-nosy-left.png',
+    imagePath: 'images/s-nosy-left.svg',
     goesRight: false,
     speed: 5,
     top: 0,
@@ -138,7 +138,7 @@ export const fishDictionary: IFishObject[] = [
   {
     height: 120,
     width: 105,
-    imagePath: 'images/s-sailfish-right.png',
+    imagePath: 'images/s-sailfish-right.svg',
     goesRight: true,
     speed: 4,
     top: 0,
@@ -147,7 +147,7 @@ export const fishDictionary: IFishObject[] = [
   {
     height: 120,
     width: 105,
-    imagePath: 'images/s-sailfish-left.png',
+    imagePath: 'images/s-sailfish-left.svg',
     goesRight: false,
     speed: 4,
     top: 0,
@@ -157,7 +157,7 @@ export const fishDictionary: IFishObject[] = [
   {
     height: 110,
     width: 157,
-    imagePath: 'images/s-barrel-right.png',
+    imagePath: 'images/s-barrel-right.svg',
     goesRight: true,
     speed: 7,
     top: 0,
@@ -166,7 +166,7 @@ export const fishDictionary: IFishObject[] = [
   {
     height: 110,
     width: 157,
-    imagePath: 'images/s-barrel-left.png',
+    imagePath: 'images/s-barrel-left.svg',
     goesRight: false,
     speed: 7,
     top: 0,
