@@ -519,7 +519,7 @@ main {
 }
 
 .game-window {
-  background-image: url('images/background.png');
+  background-image: url('/images/background.png');
   overflow: hidden;
 }
 
