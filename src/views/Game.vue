@@ -355,7 +355,6 @@ const keys: IKeys = {
  * Событие нажатия клавиши управления.
  */
 const onKeyDown = (e: KeyboardEvent) => {
-  console.log(e)
   if (!e.repeat) {
     e.stopPropagation()
 
