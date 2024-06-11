@@ -99,6 +99,16 @@ const isActionsPopupVisible: Ref<boolean> = ref<boolean>(false)
  * Флаг видимости всплывающего окна конца игры.
  */
 const isGameOverPopupVisible: Ref<boolean> = ref<boolean>(false)
+
+/**
+ * Счетчик рыб, появившихся в игре (временно используется для смены уровней).
+ */
+let fishCount = 0
+
+/**
+ * Рыбы в игре. На старте в игру пускаются только маленькие рыбы.
+ */
+let fishDictionaryForLevel: IFishObject[] = fishDictionary.slice(0, 6)
 //#endregion Данные
 
 //#region Методы
@@ -188,13 +198,18 @@ const setTimerForAddNewFish = () => {
 const addNewFish = () => {
   setTimerForAddNewFish()
 
-  const newFishIndex = generateRandomNumber(0, fishDictionary.length)
-  const newFish: IFishObject = JSON.parse(JSON.stringify(fishDictionary[newFishIndex]))
+  const newFishIndex = generateRandomNumber(0, fishDictionaryForLevel.length)
+  const newFish: IFishObject = JSON.parse(JSON.stringify(fishDictionaryForLevel[newFishIndex]))
 
   newFish.top = generateRandomNumber(newFish.height, gameWindowHeight - newFish.height)
   newFish.left = newFish.goesRight ? -newFish.width : gameWindowWidth + newFish.width
 
   fishInGame.value = [...fishInGame.value, newFish]
+
+  fishCount++
+  console.log(fishCount)
+  console.log(fishDictionaryForLevel)
+  if (fishCount > 30) fishDictionaryForLevel = JSON.parse(JSON.stringify(fishDictionary))
 }
 
 /**
@@ -382,7 +397,7 @@ const onKeyDown = (e: KeyboardEvent) => {
         keys.arrowLeftEnabled = true
         break
       case ' ':
-        if (isGameOverPopupVisible) break
+        if (isGameOverPopupVisible.value) break
         if (isActionsPopupVisible.value) onResume()
         else onPause()
         break
@@ -450,23 +465,23 @@ const changePlayerPosition = (control: Controls) => {
       player.value.imagePath = player.value.imageLeftPath
       break
     case Controls.upLeft:
-      player.value.top = player.value.top - player.value.speed
-      player.value.left = player.value.left - player.value.speed
+      player.value.top = player.value.top - player.value.diagonalSpeed
+      player.value.left = player.value.left - player.value.diagonalSpeed
       player.value.imagePath = player.value.imageLeftPath
       break
     case Controls.upRight:
-      player.value.top = player.value.top - player.value.speed
-      player.value.left = player.value.left + player.value.speed
+      player.value.top = player.value.top - player.value.diagonalSpeed
+      player.value.left = player.value.left + player.value.diagonalSpeed
       player.value.imagePath = player.value.imageRightPath
       break
     case Controls.downLeft:
-      player.value.top = player.value.top + player.value.speed
-      player.value.left = player.value.left - player.value.speed
+      player.value.top = player.value.top + player.value.diagonalSpeed
+      player.value.left = player.value.left - player.value.diagonalSpeed
       player.value.imagePath = player.value.imageLeftPath
       break
     case Controls.downRight:
-      player.value.top = player.value.top + player.value.speed
-      player.value.left = player.value.left + player.value.speed
+      player.value.top = player.value.top + player.value.diagonalSpeed
+      player.value.left = player.value.left + player.value.diagonalSpeed
       player.value.imagePath = player.value.imageRightPath
       break
   }
@@ -483,6 +498,10 @@ onUnmounted(() => {
 })
 
 //#endregion Управление
+
+//#region Уровни
+
+//#endregion Уровни
 
 //#region Инициализация (порядок вызова функций важен)
 initPlayer(basicPlayerFish)

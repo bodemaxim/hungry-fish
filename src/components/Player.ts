@@ -7,6 +7,7 @@ export const basicPlayerFish: IPlayer = {
   imageRightPath: 'images/shark-right.svg',
   imageLeftPath: 'images/shark-left.svg',
   speed: 5,
+  diagonalSpeed: 4,
   top: 0,
   left: 0,
   key: 0

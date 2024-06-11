@@ -30,6 +30,11 @@ export interface IPlayer {
    */
   speed: number
   /**
+   * Скорость рыбы при движении по диагонали (смещение в px по X и по Y каждый кадр).
+   * @type {number}
+   */
+  diagonalSpeed: number
+  /**
    * Расположение от верха игрового окна.
    * @type {number}
    */
