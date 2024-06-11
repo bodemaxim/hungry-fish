@@ -7,42 +7,19 @@ interface IProps {
    * @type {number}
    */
   playerPower: number
-  /**
-   * Накапливаемые очки, чтобы увеличить размер Игрока.
-   * @type {number}
-   */
-  growthPoints: number
-  /**
-   * @type {number}
-   * Очки, которые надо накопить, чтобы увеличить размер Игрока.
-   */
-  maxGrowthPoints: number
-  /**
-   * @type {boolean}
-   * Флаг открытия попапа действий.
-   */
-  isActionsPopupVisible: boolean
 }
 
 const props = defineProps<IProps>()
 
 const emits = defineEmits<{
-  pause: [value: boolean]
+  startAgain: [value: boolean]
 }>()
-
-/**
- * Поставить игру на паузу.
- */
-const onPause = () => {
-  emits('pause', true)
-  console.log('pause')
-}
 
 /**
  * Возобновить игру.
  */
-const onResume = () => {
-  emits('pause', false)
+const onStartAgain = () => {
+  emits('startAgain', true)
   console.log('resume in toolbar hit')
 }
 
@@ -62,55 +39,68 @@ const load = () => {
 </script>
 
 <template>
-  <section class="toolbar flex-container">
-    <div class="flex-container">
-      <img src="/images/raised-fist.svg" alt="Your power" width="24" height="24" />
-      <p class="value">{{ playerPower }}</p>
-    </div>
-    <div class="flex-container">
-      <img src="/images/skeleton.svg" alt="Your power" width="24" height="24" />
-      <p class="value">{{ growthPoints }}/{{ maxGrowthPoints }}</p>
-    </div>
-    <button @click="onPause" v-if="!isActionsPopupVisible" class="button">
-      <img src="/images/pause.svg" alt="Your power" width="24" height="24" />
-    </button>
-    <button @click="onResume" v-else class="button">Вернуться</button>
-  </section>
+  <div class="popup">
+    <h2 class="title">Game over!</h2>
+    <ul class="optionsList">
+      <li class="flex-container">
+        <img src="/images/raised-fist.svg" alt="Your power" width="24" height="24" />
+        <p class="value">Максимальная мощь: {{ playerPower }}</p>
+      </li>
+      <li><button @click="onStartAgain" class="optionsButton">Start new game</button></li>
+    </ul>
+  </div>
 </template>
 
 <style scoped>
-.toolbar {
-  width: 300px;
-  margin: 2px 10px;
+.popup {
+  height: 400px;
+  width: 400px;
+  color: black;
+  background-color: rgb(255, 98, 0);
+  border: solid;
+  border-color: #a6489a;
+  border-width: 10px;
+  z-index: 100;
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 
-.toolbar * {
-  opacity: 0.9;
+.title {
+  margin: 3px auto;
+}
+
+.optionsList {
+  list-style: none; /* Убирает стандартные маркеры списка */
+  padding: 0; /* Убирает стандартные отступы */
+  display: flex; /* Включает Flexbox для дочерних элементов */
+  flex-direction: column; /* Располагает элементы в колонку */
+  align-items: center; /* Выравнивает элементы кнопок по центру */
+}
+
+.optionsList li {
+  margin: 5px;
 }
 
 .flex-container {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 
-.button {
+button.optionsButton {
+  background-color: #4caf50;
+  border: white;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  font-size: 16px;
   cursor: pointer;
-  background: none;
-  border: none;
+  transition: background-color 0.3s;
+  width: 150px;
+  margin: 3px;
 }
 
-.button img {
-  display: block;
-}
-
-.button:hover {
-  background-color: #f5f5f5;
-  background: none;
-  border: none;
-}
-
-.value {
-  margin-left: 10px;
+button.optionsButton:hover {
+  background-color: black;
 }
 </style>

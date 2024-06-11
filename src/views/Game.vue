@@ -4,6 +4,7 @@ import type { Ref } from 'vue'
 
 import Toolbar from '@/views/Toolbar.vue'
 import ActionsPopup from '@/views/ActionsPopup.vue'
+import GameOverPopup from './GameOverPopup.vue'
 
 import { fishDictionary } from '@/components/FishObjects'
 import { basicPlayerFish } from '@/components/Player'
@@ -300,9 +301,8 @@ const growPlayer = () => {
  * Обрабатывает событие окончание игры.
  */
 const showGameOver = () => {
-  alert(`Game over!
-    Power achieved: ${playerPower.value}
-    To play again refresh the window!`)
+  isGameOverPopupVisible.value = true
+  clearInterval(animationLauncher)
 }
 //#endregion Методы
 
@@ -341,6 +341,16 @@ const onCloseActionsPopup = () => (isActionsPopupVisible.value = false)
  */
 const onCloseGameOverPopup = () => (isActionsPopupVisible.value = false)
 
+/**
+ * Событие начала новой игры.
+ */
+const onStartAgain = () => {
+  isGameOverPopupVisible.value = false
+  initPlayer(basicPlayerFish)
+  launchGame()
+  addNewFish()
+}
+
 //#endregion События
 
 //#region Управление
@@ -372,6 +382,7 @@ const onKeyDown = (e: KeyboardEvent) => {
         keys.arrowLeftEnabled = true
         break
       case ' ':
+        if (isGameOverPopupVisible) break
         if (isActionsPopupVisible.value) onResume()
         else onPause()
         break
@@ -500,9 +511,9 @@ addNewFish()
     />
     <GameOverPopup
       v-if="isGameOverPopupVisible"
-      @closePopup="onCloseGameOverPopup"
-      @resume="onResume"
-      class="actionsPopup"
+      :player-power="playerPower"
+      @start-again="onStartAgain"
+      class="gameOverPopup"
     />
   </main>
 </template>
@@ -529,7 +540,8 @@ main {
   padding: 0px 10px;
 }
 
-.actionsPopup {
+.actionsPopup,
+.gameOverPopup {
   margin: auto;
   height: 400px;
   width: 400px;
