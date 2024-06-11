@@ -254,7 +254,6 @@ const getIsOverlap = (fish: IFishObject) => {
     fish.top < player.value.top + player.value.height &&
     fish.top + fish.height > player.value.top
   ) {
-    console.log('overlap!')
     return true
   } else return false
 }
@@ -276,7 +275,6 @@ const processAllOverlaps = () => {
  * @param {IFishObject} fish - рыба.
  */
 const getWhoWins = (fish: IFishObject) => {
-  console.log('getWhoWins')
   const fishPower: number = fish.width * fish.height
   if (playerPower.value < fishPower) {
     showGameOver()
@@ -310,7 +308,6 @@ const showGameOver = () => {
 
 //#region События
 const onButton = (isPause: boolean) => {
-  console.log('onButton')
   if (isPause) {
     onPause()
   } else {
@@ -519,7 +516,7 @@ main {
 }
 
 .game-window {
-  background-image: url('/images/background.png');
+  background-image: url('@/assets/background.png');
   overflow: hidden;
 }
 
