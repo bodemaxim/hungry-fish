@@ -215,7 +215,7 @@ const addNewFish = () => {
  * Создать впервые рыбу Игрока.
  */
 const initPlayer = (playerFish: IPlayer) => {
-  player.value = playerFish
+  player.value = { ...playerFish }
   player.value.top = gameWindowHeight / 2 - player.value.height / 2
   player.value.left = gameWindowWidth / 2 - player.value.width / 2
   playerPower.value = player.value.width * player.value.height
@@ -361,10 +361,11 @@ const onStartAgain = () => {
   isGameOverPopupVisible.value = false
   initPlayer(basicPlayerFish)
   fishInGame.value = []
+  fishCount = 0
+  growthPoints = 0
   launchGame()
   addNewFish()
 }
-
 //#endregion События
 
 //#region Управление
