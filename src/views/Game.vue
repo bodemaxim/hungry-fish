@@ -207,8 +207,7 @@ const addNewFish = () => {
   fishInGame.value = [...fishInGame.value, newFish]
 
   fishCount++
-  console.log(fishCount)
-  console.log(fishDictionaryForLevel)
+
   if (fishCount > 30) fishDictionaryForLevel = JSON.parse(JSON.stringify(fishDictionary))
 }
 
@@ -361,6 +360,7 @@ const onCloseGameOverPopup = () => (isActionsPopupVisible.value = false)
 const onStartAgain = () => {
   isGameOverPopupVisible.value = false
   initPlayer(basicPlayerFish)
+  fishInGame.value = []
   launchGame()
   addNewFish()
 }
@@ -508,8 +508,6 @@ initPlayer(basicPlayerFish)
 launchGame()
 
 addNewFish()
-
-console.log('стартовый уровень добавлен')
 //#endregion Инициализация
 </script>
 
