@@ -261,7 +261,7 @@ const trackOverlap = () => {
 }
 
 /**
- * Возвращает флаг, столкнулась ли рыба с рыбой игрока.
+ * Возвращает флаг, столкнулась ли рыба с рыбой Игрока.
  */
 const getIsOverlap = (fish: IFishObject) => {
   if (
@@ -320,7 +320,6 @@ const showGameOver = () => {
   clearInterval(animationLauncher)
 }
 //#endregion Методы
-
 //#region События
 const onButton = (isPause: boolean) => {
   if (isPause) {
@@ -509,6 +508,8 @@ initPlayer(basicPlayerFish)
 launchGame()
 
 addNewFish()
+
+console.log('стартовый уровень добавлен')
 //#endregion Инициализация
 </script>
 
