@@ -14,6 +14,10 @@ import type { IFishObject } from '@/interfaces/IFishObject'
 import type { IPlayer } from '@/interfaces/IPlayer'
 import type { IKeys } from '@/interfaces/IKeys'
 
+const emits = defineEmits<{
+  onGoToMainMenu: []
+}>()
+
 //#region Данные
 /**
  * Высота игрового окна.
@@ -366,6 +370,19 @@ const onStartAgain = () => {
   launchGame()
   addNewFish()
 }
+
+/**
+ * Событие выхода в главное меню.
+ */
+const onGoToMainMenu = () => {
+  isGameOverPopupVisible.value = false
+  initPlayer(basicPlayerFish)
+  fishInGame.value = []
+  fishCount = 0
+  growthPoints = 0
+
+  emits('onGoToMainMenu')
+}
 //#endregion События
 
 //#region Управление
@@ -526,12 +543,14 @@ addNewFish()
       v-if="isActionsPopupVisible"
       @closePopup="onCloseActionsPopup"
       @resume="onResume"
+      @go-to-main-menu="onGoToMainMenu"
       class="actionsPopup"
     />
     <GameOverPopup
       v-if="isGameOverPopupVisible"
       :player-power="playerPower"
       @start-again="onStartAgain"
+      @go-to-main-menu="onGoToMainMenu"
       class="gameOverPopup"
     />
   </main>
@@ -547,10 +566,6 @@ main {
 .game-window {
   background-image: url('@/assets/background.png');
   overflow: hidden;
-}
-
-.game-object {
-  position: absolute;
 }
 
 .toolbar {

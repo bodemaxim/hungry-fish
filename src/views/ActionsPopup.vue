@@ -2,11 +2,20 @@
 const emits = defineEmits<{
   closePopup: []
   resume: []
+  goToMainMenu: []
 }>()
 
 const onResume = () => {
   emits('closePopup')
   emits('resume')
+  emits('goToMainMenu')
+}
+
+/**
+ * Перейти в главное меню.
+ */
+const onGoToMainMenu = () => {
+  emits('goToMainMenu')
 }
 </script>
 <template>
@@ -16,8 +25,7 @@ const onResume = () => {
       <ul class="actionsList">
         <li><button @click="onResume" class="optionsButton">Resume</button></li>
         <li><button class="optionsButton">Save game</button></li>
-        <li><button class="optionsButton">Load game</button></li>
-        <li><button class="optionsButton">Settings</button></li>
+        <li><button @click="onGoToMainMenu" class="optionsButton">Exit to Menu</button></li>
       </ul>
     </div>
   </main>
@@ -44,11 +52,11 @@ const onResume = () => {
 }
 
 .actionsList {
-  list-style: none; /* Убирает стандартные маркеры списка */
-  padding: 0; /* Убирает стандартные отступы */
-  display: flex; /* Включает Flexbox для дочерних элементов */
-  flex-direction: column; /* Располагает элементы в колонку */
-  align-items: center; /* Выравнивает элементы кнопок по центру */
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .actionsList li {

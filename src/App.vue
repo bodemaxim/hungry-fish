@@ -1,34 +1,16 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import Game from '@/views/Game.vue'
+import Main from '@/views/Main.vue'
 </script>
 
 <template>
-  <div class="main-page">
-    <h1 class="game-title">Hungry Fish</h1>
-    <Game class="game-window" />
-  </div>
+  <Main class="main-container" />
 </template>
 
 <style scoped>
-.main-page {
-  height: 100vh;
+.main-container {
   width: 100vw;
-  padding: 5px;
-  background-color: black;
-  color: white;
-  overflow: visible;
-}
-
-.game-window {
-  height: 603px;
-  width: 1072px;
-  margin: auto;
-  overflow: hidden;
-}
-
-.game-title {
-  text-align: center;
-  margin: 10px;
+  height: 100vh;
+  margin: 0px;
+  padding: 0px;
 }
 </style>

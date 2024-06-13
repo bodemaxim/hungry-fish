@@ -12,15 +12,23 @@ interface IProps {
 const props = defineProps<IProps>()
 
 const emits = defineEmits<{
-  startAgain: [value: boolean]
+  startAgain: []
+  goToMainMenu: []
 }>()
 
 /**
  * Возобновить игру.
  */
 const onStartAgain = () => {
-  emits('startAgain', true)
+  emits('startAgain')
   console.log('resume in toolbar hit')
+}
+
+/**
+ * Перейти в главное меню.
+ */
+const onGoToMainMenu = () => {
+  emits('goToMainMenu')
 }
 
 /**
@@ -47,6 +55,7 @@ const load = () => {
         <p class="value">Максимальная мощь: {{ playerPower }}</p>
       </li>
       <li><button @click="onStartAgain" class="optionsButton">Start new game</button></li>
+      <li><button @click="onGoToMainMenu" class="optionsButton">Exit to Menu</button></li>
     </ul>
   </div>
 </template>
@@ -72,11 +81,11 @@ const load = () => {
 }
 
 .optionsList {
-  list-style: none; /* Убирает стандартные маркеры списка */
-  padding: 0; /* Убирает стандартные отступы */
-  display: flex; /* Включает Flexbox для дочерних элементов */
-  flex-direction: column; /* Располагает элементы в колонку */
-  align-items: center; /* Выравнивает элементы кнопок по центру */
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .optionsList li {
