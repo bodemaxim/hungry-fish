@@ -14,6 +14,10 @@ const onNewGame = () => {
       <img src="@/assets/hungry-fish-text.png" alt="Hungry Fish" height="200" />
       <ul class="optionsList">
         <li><button @click="onNewGame" class="optionsButton">New Game</button></li>
+        <li>
+          <p class="help">Use arrow keys to control</p>
+          <p class="help">and space key to pause</p>
+        </li>
       </ul>
     </div>
   </main>
@@ -66,5 +70,9 @@ button.optionsButton {
 
 button.optionsButton:hover {
   background-color: rgba(255, 149, 0, 0.806);
+}
+
+.help {
+  text-align: center;
 }
 </style>
