@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-/* import { RouterLink, RouterView } from 'vue-router'*/
 import Game from '@/views/Game.vue'
 import Menu from '@/views/Menu.vue'
 

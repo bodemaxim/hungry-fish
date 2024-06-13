@@ -1,4 +1,5 @@
 <script setup lang="ts">
+//#region Props и Emits
 const emits = defineEmits<{
   closePopup: []
   resume: []
@@ -10,6 +11,7 @@ const onResume = () => {
   emits('resume')
   emits('goToMainMenu')
 }
+//#endregion Props и Emits
 
 /**
  * Перейти в главное меню.

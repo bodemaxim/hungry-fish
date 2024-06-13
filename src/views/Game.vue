@@ -14,9 +14,11 @@ import type { IFishObject } from '@/interfaces/IFishObject'
 import type { IPlayer } from '@/interfaces/IPlayer'
 import type { IKeys } from '@/interfaces/IKeys'
 
+//#region Props и Emits
 const emits = defineEmits<{
   onGoToMainMenu: []
 }>()
+//#endregion Props и Emits
 
 //#region Данные
 /**

@@ -3,6 +3,9 @@ const emits = defineEmits<{
   newGame: []
 }>()
 
+/**
+ * Событие нажатия на кнопку "New Game"
+ */
 const onNewGame = () => {
   emits('newGame')
 }

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { defineProps } from 'vue'
 
+//#region Props и Emits
 interface IProps {
   /**
    * Мощь игрока.
@@ -15,6 +16,7 @@ const emits = defineEmits<{
   startAgain: []
   goToMainMenu: []
 }>()
+//#endregion Props и Emits
 
 /**
  * Возобновить игру.
