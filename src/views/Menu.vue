@@ -21,6 +21,9 @@ const onNewGame = () => {
           <p class="help">Use arrow keys to control</p>
           <p class="help">and space key to pause</p>
         </li>
+        <li>
+          <p class="help">for PC / laptop only</p>
+        </li>
       </ul>
     </div>
   </main>
