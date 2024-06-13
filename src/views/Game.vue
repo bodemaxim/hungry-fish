@@ -303,7 +303,7 @@ const getWhoWins = (fish: IFishObject) => {
  */
 const growPlayer = () => {
   growthPoints++
-  if (growthPoints <= maxGrowthPoints) return
+  if (growthPoints < maxGrowthPoints) return
 
   player.value.height = player.value.height + 5
   player.value.width = Math.round(player.value.height * playerWidthToHeightRatio)
