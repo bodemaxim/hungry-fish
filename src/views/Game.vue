@@ -257,26 +257,74 @@ const generateRandomNumber = (min: number, max: number) => {
 }
 
 /**
- * Получить информацию о столкновении рыб.
+ * Возвращает флаг, столкнулась ли рыба с рыбой Игрока.
  */
-const trackOverlap = () => {
-  for (const item of fishInGame.value) {
-    getIsOverlap(item)
+const getIsOverlap = (fish: IFishObject) => {
+  if (playerPower.value > fish.width * fish.height) {
+    const playerHeadCenterY = player.value.top + player.value.headY
+    const fishBodyCenterX = fish.left + fish.bodyX
+    const fishBodyCenterY = fish.top + fish.bodyY
+
+    if (player.value.goesRight) {
+      const playerHeadCenterX = player.value.left + player.value.headXWhenGoesRight
+
+      const distance = getDistance(
+        playerHeadCenterX,
+        playerHeadCenterY,
+        fishBodyCenterX,
+        fishBodyCenterY
+      )
+
+      return getIsIntersection(distance, player.value.headR, fish.bodyR)
+    } else {
+      const playerHeadCenterX = player.value.left + player.value.headXWhenGoesLeft
+
+      const distance = getDistance(
+        playerHeadCenterX,
+        playerHeadCenterY,
+        fishBodyCenterX,
+        fishBodyCenterY
+      )
+
+      return getIsIntersection(distance, player.value.headR, fish.bodyR)
+    }
+  } else {
+    const playerBodyCenterX = player.value.left + player.value.bodyX
+    const playerBodyCenterY = player.value.top + player.value.bodyY
+    const fishHeadCenterX = fish.left + fish.headX
+    const fishHeadCenterY = fish.top + fish.headY
+
+    const distance = getDistance(
+      playerBodyCenterX,
+      playerBodyCenterY,
+      fishHeadCenterX,
+      fishHeadCenterY
+    )
+
+    return getIsIntersection(distance, player.value.bodyR, fish.headR)
   }
 }
 
 /**
- * Возвращает флаг, столкнулась ли рыба с рыбой Игрока.
+ * Возвращает Евклидово расстояние между двумя точками в системе координат
+ * @param {number} x1 - координата первой точки по оси X.
+ * @param {number} y1 - координата первой точки по оси X.
+ * @param {number} x2 - координата второй точки по оси Y.
+ * @param {number} y2 - координата второй точки по оси Y.
  */
-const getIsOverlap = (fish: IFishObject) => {
-  if (
-    fish.left + fish.width > player.value.left &&
-    fish.left < player.value.left + player.value.width &&
-    fish.top < player.value.top + player.value.height &&
-    fish.top + fish.height > player.value.top
-  ) {
-    return true
-  } else return false
+const getDistance = (x1: number, y1: number, x2: number, y2: number) => {
+  return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
+}
+
+/**
+ * Возвращает флаг наличия пересечения двух окружностей.
+ * @param {number} distance - Расстояния между центрами окружностей.
+ * @param {number} r1 - Радиус первой окружности.
+ * @param {number} r2 - Радиус второй окружности.
+ */
+const getIsIntersection = (distance: number, r1: number, r2: number) => {
+  if (distance >= r1 + r2) return false
+  else return true
 }
 
 /**
@@ -314,7 +362,23 @@ const growPlayer = () => {
   player.value.height = player.value.height + 5
   player.value.width = Math.round(player.value.height * playerWidthToHeightRatio)
   playerPower.value = player.value.height * player.value.width
+
   growthPoints = 0
+
+  //изменяем свойства интерактивности
+  player.value.headXWhenGoesLeft = Math.round(
+    player.value.headXWhenGoesLeftRel * player.value.width
+  )
+  player.value.headXWhenGoesRight = Math.round(
+    player.value.headXWhenGoesRightRel * player.value.width
+  )
+  player.value.headY = Math.round(player.value.bodyYRel * player.value.height)
+  player.value.headR = Math.round(player.value.headRRel * player.value.height)
+  player.value.bodyX = Math.round(player.value.bodyXRel * player.value.width)
+  player.value.bodyY = Math.round(player.value.bodyYRel * player.value.height)
+  player.value.bodyR = Math.round(player.value.bodyRRel * player.value.height)
+
+  console.log(player.value)
 }
 
 /**
@@ -474,6 +538,7 @@ const changePlayerPosition = (control: Controls) => {
       break
     case Controls.right:
       player.value.left = player.value.left + player.value.speed
+      player.value.goesRight = true
       player.value.imagePath = player.value.imageRightPath
       break
     case Controls.down:
@@ -481,26 +546,31 @@ const changePlayerPosition = (control: Controls) => {
       break
     case Controls.left:
       player.value.left = player.value.left - player.value.speed
+      player.value.goesRight = false
       player.value.imagePath = player.value.imageLeftPath
       break
     case Controls.upLeft:
       player.value.top = player.value.top - player.value.diagonalSpeed
       player.value.left = player.value.left - player.value.diagonalSpeed
+      player.value.goesRight = false
       player.value.imagePath = player.value.imageLeftPath
       break
     case Controls.upRight:
       player.value.top = player.value.top - player.value.diagonalSpeed
       player.value.left = player.value.left + player.value.diagonalSpeed
+      player.value.goesRight = true
       player.value.imagePath = player.value.imageRightPath
       break
     case Controls.downLeft:
       player.value.top = player.value.top + player.value.diagonalSpeed
       player.value.left = player.value.left - player.value.diagonalSpeed
+      player.value.goesRight = false
       player.value.imagePath = player.value.imageLeftPath
       break
     case Controls.downRight:
       player.value.top = player.value.top + player.value.diagonalSpeed
       player.value.left = player.value.left + player.value.diagonalSpeed
+      player.value.goesRight = true
       player.value.imagePath = player.value.imageRightPath
       break
   }

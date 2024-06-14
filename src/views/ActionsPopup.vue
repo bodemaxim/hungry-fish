@@ -9,7 +9,6 @@ const emits = defineEmits<{
 const onResume = () => {
   emits('closePopup')
   emits('resume')
-  emits('goToMainMenu')
 }
 //#endregion Props и Emits
 
@@ -17,6 +16,7 @@ const onResume = () => {
  * Перейти в главное меню.
  */
 const onGoToMainMenu = () => {
+  emits('closePopup')
   emits('goToMainMenu')
 }
 </script>

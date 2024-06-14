@@ -34,4 +34,34 @@ export interface IFishObject {
    * @type {number}
    */
   left: number
+  /**
+   * Расположения центра головы от левого края.
+   * @type {number}
+   */
+  headX: number
+  /**
+   * Расположение центра головы от верха.
+   * @type {number}
+   */
+  headY: number
+  /**
+   * Радиус головы.
+   * @type {number}
+   */
+  headR: number
+  /**
+   * Расположение центра тела от левого края.
+   * @type {number}
+   */
+  bodyX: number
+  /**
+   * Расположение центра тела от верха.
+   * @type {number}
+   */
+  bodyY: number
+  /**
+   * Радиус части тела, которую можно атаковать.
+   * @type {number}
+   */
+  bodyR: number
 }

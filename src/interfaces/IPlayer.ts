@@ -45,8 +45,52 @@ export interface IPlayer {
    */
   left: number
   /**
-   * Клавиша управления, использованная игроком.
+   * Плывет ли рыба вправо.
+   * @type {boolean}
+   */
+  goesRight: boolean
+
+  headXWhenGoesRightRel: number
+  headXWhenGoesLeftRel: number
+  headYRel: number
+  headRRel: number
+  bodyXRel: number
+  bodyYRel: number
+  bodyRRel: number
+
+  /**
+   * Расположение центра головы от левого края, когда плывет вправо.
    * @type {number}
    */
-  key: number
+  headXWhenGoesRight: number
+  /**
+   * Расположение центра головы от левого края, когда плывет влево.
+   * @type {number}
+   */
+  headXWhenGoesLeft: number
+  /**
+   * Расположение центра головы от верха.
+   * @type {number}
+   */
+  headY: number
+  /**
+   * Радиус головы.
+   * @type {number}
+   */
+  headR: number
+  /**
+   * Расположение центра тела от левого края.
+   * @type {number}
+   */
+  bodyX: number
+  /**
+   * Расположение центра тела от верха.
+   * @type {number}
+   */
+  bodyY: number
+  /**
+   * Радиус части тела, которую можно атаковать.
+   * @type {number}
+   */
+  bodyR: number
 }

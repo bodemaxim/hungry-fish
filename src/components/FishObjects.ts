@@ -9,7 +9,13 @@ export const fishDictionary: IFishObject[] = [
     goesRight: true,
     speed: 5,
     top: 0,
-    left: 0
+    left: 0,
+    headX: 30,
+    headY: 10,
+    headR: 10,
+    bodyX: 20,
+    bodyY: 10,
+    bodyR: 10
   },
   {
     height: 20,
@@ -18,7 +24,13 @@ export const fishDictionary: IFishObject[] = [
     goesRight: false,
     speed: 5,
     top: 0,
-    left: 0
+    left: 0,
+    headX: 10,
+    headY: 10,
+    headR: 10,
+    bodyX: 20,
+    bodyY: 10,
+    bodyR: 10
   },
   //------------------------------------------| XS Clown
   {
@@ -28,7 +40,13 @@ export const fishDictionary: IFishObject[] = [
     goesRight: true,
     speed: 3,
     top: 0,
-    left: 0
+    left: 0,
+    headX: 44,
+    headY: 15,
+    headR: 15,
+    bodyX: 30,
+    bodyY: 15,
+    bodyR: 15
   },
   {
     height: 30,
@@ -37,7 +55,13 @@ export const fishDictionary: IFishObject[] = [
     goesRight: false,
     speed: 3,
     top: 0,
-    left: 0
+    left: 0,
+    headX: 15,
+    headY: 15,
+    headR: 15,
+    bodyX: 30,
+    bodyY: 15,
+    bodyR: 15
   },
   //------------------------------------------| XS Fire
   {
@@ -47,7 +71,13 @@ export const fishDictionary: IFishObject[] = [
     goesRight: true,
     speed: 4,
     top: 0,
-    left: 0
+    left: 0,
+    headX: 56,
+    headY: 25,
+    headR: 15,
+    bodyX: 35,
+    bodyY: 20,
+    bodyR: 20
   },
   {
     height: 40,
@@ -56,7 +86,13 @@ export const fishDictionary: IFishObject[] = [
     goesRight: false,
     speed: 2,
     top: 0,
-    left: 0
+    left: 0,
+    headX: 15,
+    headY: 25,
+    headR: 15,
+    bodyX: 35,
+    bodyY: 20,
+    bodyR: 20
   },
   //------------------------------------------| XS Blue
   {
@@ -66,7 +102,13 @@ export const fishDictionary: IFishObject[] = [
     goesRight: true,
     speed: 2,
     top: 0,
-    left: 0
+    left: 0,
+    headX: 99,
+    headY: 30,
+    headR: 30,
+    bodyX: 65,
+    bodyY: 30,
+    bodyR: 30
   },
   {
     height: 60,
@@ -75,7 +117,13 @@ export const fishDictionary: IFishObject[] = [
     goesRight: false,
     speed: 4,
     top: 0,
-    left: 0
+    left: 0,
+    headX: 30,
+    headY: 30,
+    headR: 30,
+    bodyX: 65,
+    bodyY: 30,
+    bodyR: 30
   },
   //------------------------------------------| XS Spinosaurus
   {
@@ -85,7 +133,13 @@ export const fishDictionary: IFishObject[] = [
     goesRight: true,
     speed: 3,
     top: 0,
-    left: 0
+    left: 0,
+    headX: 76,
+    headY: 35,
+    headR: 35,
+    bodyX: 65,
+    bodyY: 35,
+    bodyR: 35
   },
   {
     height: 70,
@@ -94,7 +148,13 @@ export const fishDictionary: IFishObject[] = [
     goesRight: false,
     speed: 3,
     top: 0,
-    left: 0
+    left: 0,
+    headX: 35,
+    headY: 35,
+    headR: 35,
+    bodyX: 65,
+    bodyY: 35,
+    bodyR: 35
   },
   //------------------------------------------| XS Bossy
   {
@@ -104,7 +164,13 @@ export const fishDictionary: IFishObject[] = [
     goesRight: true,
     speed: 4,
     top: 0,
-    left: 0
+    left: 0,
+    headX: 116,
+    headY: 40,
+    headR: 40,
+    bodyX: 78,
+    bodyY: 40,
+    bodyR: 40
   },
   {
     height: 80,
@@ -113,7 +179,13 @@ export const fishDictionary: IFishObject[] = [
     goesRight: false,
     speed: 4,
     top: 0,
-    left: 0
+    left: 0,
+    headX: 40,
+    headY: 40,
+    headR: 40,
+    bodyX: 78,
+    bodyY: 40,
+    bodyR: 40
   },
   //------------------------------------------| XS Nosy
   {
@@ -123,7 +195,13 @@ export const fishDictionary: IFishObject[] = [
     goesRight: true,
     speed: 5,
     top: 0,
-    left: 0
+    left: 0,
+    headX: 86,
+    headY: 60,
+    headR: 40,
+    bodyX: 63,
+    bodyY: 50,
+    bodyR: 50
   },
   {
     height: 100,
@@ -132,7 +210,13 @@ export const fishDictionary: IFishObject[] = [
     goesRight: false,
     speed: 5,
     top: 0,
-    left: 0
+    left: 0,
+    headX: 40,
+    headY: 60,
+    headR: 40,
+    bodyX: 63,
+    bodyY: 50,
+    bodyR: 50
   },
   //------------------------------------------| S Sailfish
   {
@@ -142,7 +226,13 @@ export const fishDictionary: IFishObject[] = [
     goesRight: true,
     speed: 4,
     top: 0,
-    left: 0
+    left: 0,
+    headX: 65,
+    headY: 60,
+    headR: 40,
+    bodyX: 52,
+    bodyY: 60,
+    bodyR: 53
   },
   {
     height: 120,
@@ -151,7 +241,13 @@ export const fishDictionary: IFishObject[] = [
     goesRight: false,
     speed: 4,
     top: 0,
-    left: 0
+    left: 0,
+    headX: 40,
+    headY: 60,
+    headR: 40,
+    bodyX: 52,
+    bodyY: 60,
+    bodyR: 53
   },
   //------------------------------------------| S Barrel
   {
@@ -161,7 +257,13 @@ export const fishDictionary: IFishObject[] = [
     goesRight: true,
     speed: 7,
     top: 0,
-    left: 0
+    left: 0,
+    headX: 102,
+    headY: 55,
+    headR: 55,
+    bodyX: 79,
+    bodyY: 60,
+    bodyR: 53
   },
   {
     height: 110,
@@ -170,6 +272,12 @@ export const fishDictionary: IFishObject[] = [
     goesRight: false,
     speed: 7,
     top: 0,
-    left: 0
+    left: 0,
+    headX: 55,
+    headY: 55,
+    headR: 55,
+    bodyX: 79,
+    bodyY: 60,
+    bodyR: 53
   }
 ]
