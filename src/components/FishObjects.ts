@@ -279,5 +279,36 @@ export const fishDictionary: IFishObject[] = [
     bodyX: 79,
     bodyY: 60,
     bodyR: 53
+  },
+  //------------------------------------------| L Hammer
+  {
+    height: 300,
+    width: 527,
+    imagePath: 'images/l-hammer-right.svg',
+    goesRight: true,
+    speed: 8,
+    top: 0,
+    left: 0,
+    headX: 407,
+    headY: 200,
+    headR: 75,
+    bodyX: 213,
+    bodyY: 150,
+    bodyR: 150
+  },
+  {
+    height: 300,
+    width: 527,
+    imagePath: 'images/l-hammer-left.svg',
+    goesRight: false,
+    speed: 8,
+    top: 0,
+    left: 0,
+    headX: 120,
+    headY: 200,
+    headR: 75,
+    bodyX: 213,
+    bodyY: 150,
+    bodyR: 150
   }
 ]

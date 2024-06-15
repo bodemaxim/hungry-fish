@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import Main from '@/views/Main.vue'
+import MainContainer from '@/views/MainContainer.vue'
 </script>
 
 <template>
-  <Main class="main-container" />
+  <MainContainer class="main-container" />
 </template>
 
 <style scoped>

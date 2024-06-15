@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import Game from '@/views/Game.vue'
-import Menu from '@/views/Menu.vue'
+import GameWindow from '@/views/GameWindow.vue'
+import GameMenu from '@/views/GameMenu.vue'
 
 /**
  * Флаг нахождения на странице главного меню.
@@ -19,8 +19,8 @@ const onGoToMainMenu = () => {
 
 <template>
   <div class="main-component">
-    <Menu v-if="isOnMenuPage" class="menu-window" @new-game="onStartNewGame" />
-    <Game v-else class="game-window" @on-go-to-main-menu="onGoToMainMenu" />
+    <GameMenu v-if="isOnMenuPage" class="menu-window" @new-game="onStartNewGame" />
+    <GameWindow v-else class="game-window" @on-go-to-main-menu="onGoToMainMenu" />
   </div>
 </template>
 

@@ -62,21 +62,6 @@ let control: Controls = 9
 const playerPower: Ref<number> = ref<number>(0)
 
 /**
- * Время партии.
- */
-let gameTime = 0
-
-/**
- * Время начала партии.
- */
-const gameStartTime: number = Date.now()
-
-/**
- * Время конца партии.
- */
-let gameEndTime: Date | null = null
-
-/**
  * Накапливаемые очки, чтобы увеличить размер Игрока.
  */
 let growthPoints: number = 0
@@ -110,6 +95,16 @@ const isGameOverPopupVisible: Ref<boolean> = ref<boolean>(false)
  * Счетчик рыб, появившихся в игре (временно используется для смены уровней).
  */
 let fishCount = 0
+
+/**
+ * Число появившихся рыб в игре, спустя которое левел-босс может появиться.
+ */
+let levelBossCount = 0
+
+/**
+ * Сколько рыб должно появиться до нового прихода босса.
+ */
+let howOftenLevelBossAllowed = 10
 
 /**
  * Рыбы в игре. На старте в игру пускаются только маленькие рыбы.
@@ -191,7 +186,7 @@ const formPlayerHtml = (fish: IPlayer): string => {
 const setTimerForAddNewFish = () => {
   isNewFishAllowed = false
 
-  const timerForAddNewFish = generateRandomNumber(500, 3000)
+  const timerForAddNewFish = generateRandomNumber(200, 1500)
 
   setTimeout(function () {
     isNewFishAllowed = true
@@ -204,17 +199,58 @@ const setTimerForAddNewFish = () => {
 const addNewFish = () => {
   setTimerForAddNewFish()
 
-  const newFishIndex = generateRandomNumber(0, fishDictionaryForLevel.length)
+  let newFishIndex = generateRandomNumber(0, fishDictionaryForLevel.length)
+
   const newFish: IFishObject = JSON.parse(JSON.stringify(fishDictionaryForLevel[newFishIndex]))
 
-  newFish.top = generateRandomNumber(newFish.height, gameWindowHeight - newFish.height)
+  const isBossAllowed = getIsLevelBossAllowed(newFish)
+  if (isBossAllowed === false) {
+    return
+  }
+  newFish.top = generateRandomNumber(0, gameWindowHeight - newFish.height)
   newFish.left = newFish.goesRight ? -newFish.width : gameWindowWidth + newFish.width
 
   fishInGame.value = [...fishInGame.value, newFish]
 
   fishCount++
 
-  if (fishCount > 30) fishDictionaryForLevel = JSON.parse(JSON.stringify(fishDictionary))
+  updateLevel()
+}
+
+/**
+ * Флаг, можно ли впускать левел-босса.
+ * @param {number} newFishIndex - индекс новой рыбы в словаре рыб.
+ * @return {boolean | null} - null - новая рыба не босс, true - можно впустить босса, false - нельзя.
+ */
+const getIsLevelBossAllowed = (newFish: IFishObject): boolean | null => {
+  if (newFish.height !== 300) return null
+
+  if (levelBossCount === 0) {
+    levelBossCount = fishCount + howOftenLevelBossAllowed
+    return true
+  } else if (levelBossCount > fishCount) {
+    return false
+  } else {
+    levelBossCount = fishCount + howOftenLevelBossAllowed
+    return true
+  }
+}
+
+/**
+ * Обновить уровень.
+ */
+const updateLevel = () => {
+  //ввести в игру первые 5 рыб
+  if (fishCount === 30)
+    fishDictionaryForLevel = JSON.parse(JSON.stringify(fishDictionary.slice(0, 10)))
+  //ввести в игру первые 7 рыб
+  else if (fishCount === 50)
+    fishDictionaryForLevel = JSON.parse(JSON.stringify(fishDictionary.slice(0, 14)))
+  //ввести в игру первые 9 рыб
+  else if (fishCount === 100)
+    fishDictionaryForLevel = JSON.parse(JSON.stringify(fishDictionary.slice(0, 18)))
+  //ввести в игру левел-босса
+  else if (fishCount === 150) fishDictionaryForLevel = JSON.parse(JSON.stringify(fishDictionary))
 }
 
 /**
@@ -377,8 +413,6 @@ const growPlayer = () => {
   player.value.bodyX = Math.round(player.value.bodyXRel * player.value.width)
   player.value.bodyY = Math.round(player.value.bodyYRel * player.value.height)
   player.value.bodyR = Math.round(player.value.bodyRRel * player.value.height)
-
-  console.log(player.value)
 }
 
 /**
@@ -420,11 +454,6 @@ const onResume = () => {
 const onCloseActionsPopup = () => (isActionsPopupVisible.value = false)
 
 /**
- * Событие закрытия всплывающего окна конца игры.
- */
-const onCloseGameOverPopup = () => (isActionsPopupVisible.value = false)
-
-/**
  * Событие начала новой игры.
  */
 const onStartAgain = () => {
@@ -432,6 +461,7 @@ const onStartAgain = () => {
   initPlayer(basicPlayerFish)
   fishInGame.value = []
   fishCount = 0
+  fishDictionaryForLevel = JSON.parse(JSON.stringify(fishDictionary.slice(0, 6)))
   growthPoints = 0
   launchGame()
   addNewFish()
