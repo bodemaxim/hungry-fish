@@ -2,7 +2,7 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import type { Ref } from 'vue'
 
-import Toolbar from '@/views/Toolbar.vue'
+import GameToolbar from '@/views/GameToolbar.vue'
 import ActionsPopup from '@/views/ActionsPopup.vue'
 import GameOverPopup from './GameOverPopup.vue'
 
@@ -104,12 +104,14 @@ let levelBossCount = 0
 /**
  * Сколько рыб должно появиться до нового прихода босса.
  */
-let howOftenLevelBossAllowed = 10
+let howOftenLevelBossAllowed = 20
 
 /**
- * Рыбы в игре. На старте в игру пускаются только маленькие рыбы.
+ * Рыбы в игре.
  */
-let fishDictionaryForLevel: IFishObject[] = fishDictionary.slice(0, 6)
+let fishDictionaryForLevel: IFishObject[] = fishDictionary.filter(
+  (item) => item.name === 'xs-rainbow' || item.name === 'xs-clown' || item.name === 'xs-fire'
+)
 //#endregion Данные
 
 //#region Методы
@@ -234,23 +236,6 @@ const getIsLevelBossAllowed = (newFish: IFishObject): boolean | null => {
     levelBossCount = fishCount + howOftenLevelBossAllowed
     return true
   }
-}
-
-/**
- * Обновить уровень.
- */
-const updateLevel = () => {
-  //ввести в игру первые 5 рыб
-  if (fishCount === 30)
-    fishDictionaryForLevel = JSON.parse(JSON.stringify(fishDictionary.slice(0, 10)))
-  //ввести в игру первые 7 рыб
-  else if (fishCount === 50)
-    fishDictionaryForLevel = JSON.parse(JSON.stringify(fishDictionary.slice(0, 14)))
-  //ввести в игру первые 9 рыб
-  else if (fishCount === 100)
-    fishDictionaryForLevel = JSON.parse(JSON.stringify(fishDictionary.slice(0, 18)))
-  //ввести в игру левел-босса
-  else if (fishCount === 150) fishDictionaryForLevel = JSON.parse(JSON.stringify(fishDictionary))
 }
 
 /**
@@ -401,7 +386,7 @@ const growPlayer = () => {
 
   growthPoints = 0
 
-  //изменяем свойства интерактивности
+  //изменяет размер кругов головы и тела рыбы Игрока
   player.value.headXWhenGoesLeft = Math.round(
     player.value.headXWhenGoesLeftRel * player.value.width
   )
@@ -619,7 +604,61 @@ onUnmounted(() => {
 //#endregion Управление
 
 //#region Уровни
+/**
+ * Обновить уровень.
+ */
+const updateLevel = () => {
+  if (fishCount === 30) {
+    const fishToAdd = ['xs-rainbow', 'xs-clown', 'xs-fire', 'xs-blue', 'xs-spino']
+    updFishDictForLevel(fishToAdd)
+  } else if (fishCount === 60) {
+    const fishToAdd = [
+      'xs-rainbow',
+      'xs-clown',
+      'xs-fire',
+      'xs-blue',
+      'xs-spino',
+      'xs-bossy',
+      'xs-nosy'
+    ]
+    updFishDictForLevel(fishToAdd)
+  } else if (fishCount === 90) {
+    const fishToAdd = [
+      'xs-rainbow',
+      'xs-clown',
+      'xs-fire',
+      'xs-blue',
+      'xs-spino',
+      'xs-bossy',
+      'xs-nosy',
+      's-sailfish',
+      's-barrel'
+    ]
+    updFishDictForLevel(fishToAdd)
+  } else if (fishCount === 120) {
+    const fishToAdd = [
+      'xs-rainbow',
+      'xs-clown',
+      'xs-fire',
+      'xs-blue',
+      'xs-spino',
+      'xs-bossy',
+      'xs-nosy',
+      's-sailfish',
+      's-barrel',
+      'l-hammer'
+    ]
+    updFishDictForLevel(fishToAdd)
+  }
+}
 
+/**
+ * Обновить коллекцию рыб для данного уровня.
+ * @param  {string[]} fishToAdd - рыбы в игре.
+ */
+const updFishDictForLevel = (fishToAdd: string[]) => {
+  fishDictionaryForLevel = fishDictionary.filter((item) => fishToAdd.includes(item.name))
+}
 //#endregion Уровни
 
 //#region Инициализация (порядок вызова функций важен)
@@ -634,7 +673,7 @@ addNewFish()
 <template>
   <main>
     <div v-html="fishInGameHtml" class="game-window" @keydown="onKeyDown" @keyUp="onKeyUp"></div>
-    <Toolbar
+    <GameToolbar
       :player-power="playerPower"
       :growth-points="growthPoints"
       :max-growth-points="maxGrowthPoints"

@@ -1,5 +1,10 @@
 export interface IFishObject {
   /**
+   * Название рыбы.
+   * @type {string}
+   */
+  name: string
+  /**
    * Высота рыбы.
    * @type {number}
    */

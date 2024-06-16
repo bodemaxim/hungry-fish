@@ -47,20 +47,6 @@ const onResume = () => {
   emits('pause', false)
   console.log('resume in toolbar hit')
 }
-
-/**
- * Сохранить игру без возможности вернуться в случае продолжения партии.
- */
-const save = () => {
-  console.log('save')
-}
-
-/**
- * Загрузить игру.
- */
-const load = () => {
-  console.log('load')
-}
 </script>
 
 <template>
@@ -76,7 +62,9 @@ const load = () => {
     <button @click="onPause" v-if="!isActionsPopupVisible" class="button">
       <img src="/images/pause.svg" alt="Your power" width="24" height="24" />
     </button>
-    <button @click="onResume" v-else class="button">Вернуться</button>
+    <button @click="onResume" v-else class="button">
+      <img src="/images/resume.svg" alt="Your power" width="24" height="24" />
+    </button>
   </section>
 </template>
 

@@ -3,6 +3,7 @@ import type { IFishObject } from '@/interfaces/IFishObject'
 export const fishDictionary: IFishObject[] = [
   //------------------------------------------| XS Rainbow
   {
+    name: 'xs-rainbow',
     height: 20,
     width: 40,
     imagePath: 'images/xs-rainbow-right.svg',
@@ -18,6 +19,7 @@ export const fishDictionary: IFishObject[] = [
     bodyR: 10
   },
   {
+    name: 'xs-rainbow',
     height: 20,
     width: 40,
     imagePath: 'images/xs-rainbow-left.svg',
@@ -34,6 +36,7 @@ export const fishDictionary: IFishObject[] = [
   },
   //------------------------------------------| XS Clown
   {
+    name: 'xs-clown',
     height: 30,
     width: 59,
     imagePath: 'images/xs-clown-right.svg',
@@ -49,6 +52,7 @@ export const fishDictionary: IFishObject[] = [
     bodyR: 15
   },
   {
+    name: 'xs-clown',
     height: 30,
     width: 59,
     imagePath: 'images/xs-clown-left.svg',
@@ -65,6 +69,7 @@ export const fishDictionary: IFishObject[] = [
   },
   //------------------------------------------| XS Fire
   {
+    name: 'xs-fire',
     height: 40,
     width: 71,
     imagePath: 'images/xs-fire-right.svg',
@@ -80,6 +85,7 @@ export const fishDictionary: IFishObject[] = [
     bodyR: 20
   },
   {
+    name: 'xs-fire',
     height: 40,
     width: 71,
     imagePath: 'images/xs-fire-left.svg',
@@ -96,6 +102,7 @@ export const fishDictionary: IFishObject[] = [
   },
   //------------------------------------------| XS Blue
   {
+    name: 'xs-blue',
     height: 60,
     width: 129,
     imagePath: 'images/xs-blue-right.svg',
@@ -111,6 +118,7 @@ export const fishDictionary: IFishObject[] = [
     bodyR: 30
   },
   {
+    name: 'xs-blue',
     height: 60,
     width: 129,
     imagePath: 'images/xs-blue-left.svg',
@@ -127,6 +135,7 @@ export const fishDictionary: IFishObject[] = [
   },
   //------------------------------------------| XS Spinosaurus
   {
+    name: 'xs-spino',
     height: 70,
     width: 111,
     imagePath: 'images/xs-spinosaurus-right.svg',
@@ -142,6 +151,7 @@ export const fishDictionary: IFishObject[] = [
     bodyR: 35
   },
   {
+    name: 'xs-spino',
     height: 70,
     width: 111,
     imagePath: 'images/xs-spinosaurus-left.svg',
@@ -158,6 +168,7 @@ export const fishDictionary: IFishObject[] = [
   },
   //------------------------------------------| XS Bossy
   {
+    name: 'xs-bossy',
     height: 80,
     width: 156,
     imagePath: 'images/xs-bossy-right.svg',
@@ -173,6 +184,7 @@ export const fishDictionary: IFishObject[] = [
     bodyR: 40
   },
   {
+    name: 'xs-bossy',
     height: 80,
     width: 156,
     imagePath: 'images/xs-bossy-left.svg',
@@ -189,6 +201,7 @@ export const fishDictionary: IFishObject[] = [
   },
   //------------------------------------------| XS Nosy
   {
+    name: 'xs-nosy',
     height: 100,
     width: 126,
     imagePath: 'images/s-nosy-right.svg',
@@ -204,6 +217,7 @@ export const fishDictionary: IFishObject[] = [
     bodyR: 50
   },
   {
+    name: 'xs-nosy',
     height: 100,
     width: 126,
     imagePath: 'images/s-nosy-left.svg',
@@ -220,6 +234,7 @@ export const fishDictionary: IFishObject[] = [
   },
   //------------------------------------------| S Sailfish
   {
+    name: 's-sailfish',
     height: 120,
     width: 105,
     imagePath: 'images/s-sailfish-right.svg',
@@ -235,6 +250,7 @@ export const fishDictionary: IFishObject[] = [
     bodyR: 53
   },
   {
+    name: 's-sailfish',
     height: 120,
     width: 105,
     imagePath: 'images/s-sailfish-left.svg',
@@ -251,6 +267,7 @@ export const fishDictionary: IFishObject[] = [
   },
   //------------------------------------------| S Barrel
   {
+    name: 's-barrel',
     height: 110,
     width: 157,
     imagePath: 'images/s-barrel-right.svg',
@@ -266,6 +283,7 @@ export const fishDictionary: IFishObject[] = [
     bodyR: 53
   },
   {
+    name: 's-barrel',
     height: 110,
     width: 157,
     imagePath: 'images/s-barrel-left.svg',
@@ -282,6 +300,7 @@ export const fishDictionary: IFishObject[] = [
   },
   //------------------------------------------| L Hammer
   {
+    name: 'l-hammer',
     height: 300,
     width: 527,
     imagePath: 'images/l-hammer-right.svg',
@@ -297,6 +316,7 @@ export const fishDictionary: IFishObject[] = [
     bodyR: 150
   },
   {
+    name: 'l-hammer',
     height: 300,
     width: 527,
     imagePath: 'images/l-hammer-left.svg',
