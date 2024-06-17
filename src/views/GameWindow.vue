@@ -607,59 +607,44 @@ onUnmounted(() => {
 /**
  * Обновить уровень.
  */
-const updateLevel = () => {
-  if (fishCount === 30) {
-    const fishToAdd = ['xs-rainbow', 'xs-clown', 'xs-fire', 'xs-blue', 'xs-spino']
-    updFishDictForLevel(fishToAdd)
-  } else if (fishCount === 60) {
-    const fishToAdd = [
-      'xs-rainbow',
-      'xs-clown',
-      'xs-fire',
-      'xs-blue',
-      'xs-spino',
-      'xs-bossy',
-      'xs-nosy'
-    ]
-    updFishDictForLevel(fishToAdd)
-  } else if (fishCount === 90) {
-    const fishToAdd = [
-      'xs-rainbow',
-      'xs-clown',
-      'xs-fire',
-      'xs-blue',
-      'xs-spino',
-      'xs-bossy',
-      'xs-nosy',
-      's-sailfish',
-      's-barrel'
-    ]
-    updFishDictForLevel(fishToAdd)
-  } else if (fishCount === 120) {
-    const fishToAdd = [
-      'xs-rainbow',
-      'xs-clown',
-      'xs-fire',
-      'xs-blue',
-      'xs-spino',
-      'xs-bossy',
-      'xs-nosy',
-      's-sailfish',
-      's-barrel',
-      'l-hammer'
-    ]
-    updFishDictForLevel(fishToAdd)
+ const updateLevel = () => {
+    if (fishCount === 30) {
+      const fishToAdd = ['xs-blue', 'xs-spino']
+      pushFishIntoDictForLevel(fishToAdd)
+    } else if (fishCount === 60) {
+      const fishToAdd = ['xs-bossy','xs-nosy']
+      pushFishIntoDictForLevel(fishToAdd)
+    } else if (fishCount === 90) {
+      const fishToAdd = ['s-sailfish','s-barrel', 's-barrel']
+      pushFishIntoDictForLevel(fishToAdd)
+    } else if (fishCount === 150) {
+        const fishToAdd = ['l-hammer']
+      pushFishIntoDictForLevel(fishToAdd)
+    }
   }
-}
+  
+  /**
+   * Перезаписать коллекцию рыб для данного уровня.
+   * @param  {string[]} fishToAdd - рыбы, которые будут в игре.
+   */
+  const rewriteFishDictForLevel = (fishToAdd: string[]) => {
+    fishDictionaryForLevel = fishDictionary.filter((item) => fishToAdd.includes(item.name))
+  }
 
-/**
- * Обновить коллекцию рыб для данного уровня.
- * @param  {string[]} fishToAdd - рыбы в игре.
- */
-const updFishDictForLevel = (fishToAdd: string[]) => {
-  fishDictionaryForLevel = fishDictionary.filter((item) => fishToAdd.includes(item.name))
-}
-//#endregion Уровни
+  /**
+   * Дополнить коллекцию рыб для данного уровня.
+   * @param  {string[]} fishToAdd - рыбы, которых надо добавить в игру к уже имеющимся.
+   */
+  const pushFishIntoDictForLevel = (fishToAdd: string[]) => {
+
+       for (const item of fishToAdd) {
+            const newFish: IFishObject[] | undefined = fishDictionary.filter(l => l.name === item)
+
+            if (newFish) fishDictionaryForLevel = [...fishDictionaryForLevel, ...newFish]
+       }
+  }
+  //#endregion Уровни
+
 
 //#region Инициализация (порядок вызова функций важен)
 initPlayer(basicPlayerFish)
