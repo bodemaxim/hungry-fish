@@ -6,7 +6,7 @@ import GameToolbar from '@/views/GameToolbar.vue'
 import ActionsPopup from '@/views/ActionsPopup.vue'
 import GameOverPopup from './GameOverPopup.vue'
 
-import { fishDictionary } from '@/components/FishObjects'
+import { fishCollectionLevel1 } from '@/components/FishCollections'
 import { basicPlayerFish } from '@/components/Player'
 import { Controls } from '@/enum/Controls'
 
@@ -109,7 +109,7 @@ let howOftenLevelBossAllowed = 20
 /**
  * Рыбы в игре.
  */
-let fishDictionaryForLevel: IFishObject[] = fishDictionary.filter(
+let fishCollectionForLevel: IFishObject[] = fishCollectionLevel1.filter(
   (item) => item.name === 'xs-rainbow' || item.name === 'xs-clown' || item.name === 'xs-fire'
 )
 //#endregion Данные
@@ -201,9 +201,9 @@ const setTimerForAddNewFish = () => {
 const addNewFish = () => {
   setTimerForAddNewFish()
 
-  let newFishIndex = generateRandomNumber(0, fishDictionaryForLevel.length)
+  let newFishIndex = generateRandomNumber(0, fishCollectionForLevel.length)
 
-  const newFish: IFishObject = JSON.parse(JSON.stringify(fishDictionaryForLevel[newFishIndex]))
+  const newFish: IFishObject = JSON.parse(JSON.stringify(fishCollectionForLevel[newFishIndex]))
 
   const isBossAllowed = getIsLevelBossAllowed(newFish)
   if (isBossAllowed === false) {
@@ -446,7 +446,7 @@ const onStartAgain = () => {
   initPlayer(basicPlayerFish)
   fishInGame.value = []
   fishCount = 0
-  fishDictionaryForLevel = JSON.parse(JSON.stringify(fishDictionary.slice(0, 6)))
+  fishCollectionForLevel = JSON.parse(JSON.stringify(fishCollectionLevel1.slice(0, 6)))
   growthPoints = 0
   launchGame()
   addNewFish()
@@ -628,7 +628,7 @@ onUnmounted(() => {
    * @param  {string[]} fishToAdd - рыбы, которые будут в игре.
    */
   const rewriteFishDictForLevel = (fishToAdd: string[]) => {
-    fishDictionaryForLevel = fishDictionary.filter((item) => fishToAdd.includes(item.name))
+    fishCollectionForLevel = fishCollectionLevel1.filter((item) => fishToAdd.includes(item.name))
   }
 
   /**
@@ -638,9 +638,9 @@ onUnmounted(() => {
   const pushFishIntoDictForLevel = (fishToAdd: string[]) => {
 
        for (const item of fishToAdd) {
-            const newFish: IFishObject[] | undefined = fishDictionary.filter(l => l.name === item)
+            const newFish: IFishObject[] | undefined = fishCollectionLevel1.filter(l => l.name === item)
 
-            if (newFish) fishDictionaryForLevel = [...fishDictionaryForLevel, ...newFish]
+            if (newFish) fishCollectionForLevel = [...fishCollectionForLevel, ...newFish]
        }
   }
   //#endregion Уровни

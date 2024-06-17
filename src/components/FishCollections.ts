@@ -1,7 +1,7 @@
 import type { IFishObject } from '@/interfaces/IFishObject'
 
-export const fishDictionary: IFishObject[] = [
-  //------------------------------------------| XS Rainbow
+//#region Level 1
+export const fishCollectionLevel1: IFishObject[] = [
   {
     name: 'xs-rainbow',
     height: 20,
@@ -34,7 +34,6 @@ export const fishDictionary: IFishObject[] = [
     bodyY: 10,
     bodyR: 10
   },
-  //------------------------------------------| XS Clown
   {
     name: 'xs-clown',
     height: 30,
@@ -67,7 +66,6 @@ export const fishDictionary: IFishObject[] = [
     bodyY: 15,
     bodyR: 15
   },
-  //------------------------------------------| XS Fire
   {
     name: 'xs-fire',
     height: 40,
@@ -100,7 +98,6 @@ export const fishDictionary: IFishObject[] = [
     bodyY: 20,
     bodyR: 20
   },
-  //------------------------------------------| XS Blue
   {
     name: 'xs-blue',
     height: 60,
@@ -133,7 +130,6 @@ export const fishDictionary: IFishObject[] = [
     bodyY: 30,
     bodyR: 30
   },
-  //------------------------------------------| XS Spinosaurus
   {
     name: 'xs-spino',
     height: 70,
@@ -166,7 +162,6 @@ export const fishDictionary: IFishObject[] = [
     bodyY: 35,
     bodyR: 35
   },
-  //------------------------------------------| XS Bossy
   {
     name: 'xs-bossy',
     height: 80,
@@ -199,7 +194,6 @@ export const fishDictionary: IFishObject[] = [
     bodyY: 40,
     bodyR: 40
   },
-  //------------------------------------------| XS Nosy
   {
     name: 'xs-nosy',
     height: 100,
@@ -232,7 +226,6 @@ export const fishDictionary: IFishObject[] = [
     bodyY: 50,
     bodyR: 50
   },
-  //------------------------------------------| S Sailfish
   {
     name: 's-sailfish',
     height: 120,
@@ -265,7 +258,6 @@ export const fishDictionary: IFishObject[] = [
     bodyY: 60,
     bodyR: 53
   },
-  //------------------------------------------| S Barrel
   {
     name: 's-barrel',
     height: 110,
@@ -298,7 +290,6 @@ export const fishDictionary: IFishObject[] = [
     bodyY: 60,
     bodyR: 53
   },
-  //------------------------------------------| L Hammer
   {
     name: 'l-hammer',
     height: 300,
@@ -332,3 +323,4 @@ export const fishDictionary: IFishObject[] = [
     bodyR: 150
   }
 ]
+//#endregion Level 1

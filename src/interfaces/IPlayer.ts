@@ -49,14 +49,33 @@ export interface IPlayer {
    * @type {boolean}
    */
   goesRight: boolean
-
+  /**
+   * Значение от 0 до 1. Указывает насколько смещена вправо голова рыбы относительно тела при движении направо.
+   * @type {number}
+   */
   headXWhenGoesRightRel: number
+  /**
+   * Значение от 0 до 1. Указывает насколько смещена вправо голова рыбы относительно тела при движении налево.
+   * @type {number}
+   */
   headXWhenGoesLeftRel: number
+  /**
+   * Значение от 0 до 1. Указывает насколько смещен вправо центр головы рыбы по Y относительно длины тела.
+   * @type {number}
+   */
   headYRel: number
+  /**
+   * Значение от 0 до 1. Указывает радиус атакуемой части тела относительно высоты рыбы.
+   * @type {number}
+   */
   headRRel: number
+
   bodyXRel: number
+
   bodyYRel: number
+
   bodyRRel: number
+
 
   /**
    * Расположение центра головы от левого края, когда плывет вправо.
